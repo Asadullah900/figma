@@ -19,7 +19,6 @@ import PushJSON from './PushJSON';
 import PushSettingForm from './PushSettingForm';
 import { getSupernovaOpenCloud } from '../store/providers/supernova/getSupernovaOpenCloud';
 import Modal from './Modal';
-import { FormatSelector } from './FormatSelector';
 
 function PushDialog() {
   const { onConfirm, onCancel, showPushDialog } = usePushDialog();
@@ -105,7 +104,11 @@ function PushDialog() {
     [handlePushChanges, showPushDialog],
   );
 
-  useShortcut(['Enter'], handleSaveShortcut);
+  React.useEffect(() => {
+    if (showPushDialog?.state === 'initial') {
+      useShortcut(['Enter'], handleSaveShortcut);
+    }
+  }, [showPushDialog, handleSaveShortcut]);
 
   switch (showPushDialog?.state) {
     case 'dtcgconversion':
